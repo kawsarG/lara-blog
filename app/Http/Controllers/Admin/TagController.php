@@ -105,6 +105,10 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        return 'hello';
+
+        $tag=Tag::find($tag->id);
+        $tag->delete();
+        Toastr::success('Tag deleted successfully','Success');
+        return redirect()->route('admin.tag.index');
     }
 }

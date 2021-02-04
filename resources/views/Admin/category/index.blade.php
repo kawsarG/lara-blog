@@ -1,6 +1,6 @@
 @extends('layouts.backend.app');
 
-@section('title','Tag')
+@section('title','Category')
 
 @push('css')
     <!-- JQuery DataTable Css -->
@@ -10,14 +10,14 @@
 @section('content')
    <section class="content">
        <div class="container-fluid">
-           <div class="block-header"><a href="{{route('admin.tag.create')}}" class="btn btn-primary waves-effect"><i class="material-icons">add</i>Add New Tag</a></div>
+           <div class="block-header"><a href="{{route('admin.category.create')}}" class="btn btn-primary waves-effect"><i class="material-icons">add</i>Add New Category</a></div>
            <!-- Exportable Table -->
            <div class="row clearfix">
                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                    <div class="card">
                        <div class="header">
                            <h2>
-                               All Tags
+                               All Category
                            </h2>
                        </div>
                        <div class="body">
@@ -42,17 +42,17 @@
                                    </tr>
                                    </tfoot>
                                  <tbody>
-                                 @foreach($tags as $key=>$tag)
+                                 @foreach($categories as $key=>$category)
                                      <tr>
                                          <td>{{$key+1}}</td>
-                                         <td>{{$tag->name}}</td>
-                                         <td>{{$tag->created_at}}</td>
-                                         <td>{{$tag->updated_at}}</td>
+                                         <td>{{$category->name}}</td>
+                                         <td>{{$category->created_at}}</td>
+                                         <td>{{$category->updated_at}}</td>
                                          <td>
-                                             <a href="{{route('admin.tag.edit',$tag->id)}}" class="btn btn-warning"><i class="material-icons">edit</i>Edit</a>
+                                             <a href="{{route('admin.category.edit',$category->id)}}" class="btn btn-warning"><i class="material-icons">edit</i>Edit</a>
                                              <a href="" class="btn btn-danger" onclick="event.preventDefault();
-                                                 document.getElementById('del-{{$tag->id}}').submit()"><i class="material-icons">delete</i>Delete</a>
-                                             <form id="del-{{$tag->id}}" action="{{route('admin.tag.destroy',$tag)}}" method="POST">
+                                                 document.getElementById('del-{{$category->id}}').submit()"><i class="material-icons">delete</i>Delete</a>
+                                             <form id="del-{{$category->id}}" action="{{route('admin.category.destroy',$category)}}" method="POST">
                                                  @csrf
                                                  @method('DELETE')
                                              </form>
