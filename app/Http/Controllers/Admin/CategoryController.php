@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Image;
+use Intervention\Image\Facades\Image;
 Use Toastr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -43,13 +43,13 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required|min:3|unique:categories|max:10',
+            'name'=>'required|min:3|unique:categories',
             'image'=>'required|mimes:jpeg,jpg,png,bmp'
         ]);
 
 
         //get image from request
-        $image = file('image');
+        $image = $request->file('image');
         $slug= Str::slug($request->name);
 
         if(isset($image)){
@@ -60,7 +60,7 @@ class CategoryController extends Controller
                 Storage::disk('public')->makeDirectory('category');
             }
             //resize image for category and upload
-            $category= Image::make($image)->resize(1600,400)->save();
+            $category=Image::make($image)->resize(1600,300)->save();
             Storage::disk('public')->put('category/'.$imageName,$category);
 
             //check slider folder in category directory exists or not
@@ -116,11 +116,50 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'name'=>'required',
+            'name'=>'min:3',
+            'image'=>'mimes:jpeg,jpg,png,bmp'
         ]);
-        $category= Category::find($category->id);
+       // $category= Category::find($category->id);
+
+        //get image from request
+        $image = $request->file('image');
+        $slug= Str::slug($request->name);
+
+
+        if(isset($image)){
+            $cDate= Carbon::now()->toDateString();
+            $imageName=$slug.'-'.$cDate.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+            //check category directory exists or not
+            if(!Storage::disk('public')->exists('category')){
+                Storage::disk('public')->makeDirectory('category');
+            }
+            //delete old category image
+            if(Storage::disk('public')->exists('category/'.$category->image)){
+                Storage::disk('public')->delete('category/'.$category->image);
+            }
+            //resize image for category and upload
+            $categoryImg=Image::make($image)->resize(1600,300)->save();
+            Storage::disk('public')->put('category/'.$imageName,$categoryImg);
+
+            //check slider folder in category directory exists or not
+            if(!Storage::disk('public')->exists('category/slider')){
+                Storage::disk('public')->makeDirectory('category/slider');
+            }
+            //delete old slider image
+            if(Storage::disk('public')->exists('category/slider/'.$category->image)){
+                Storage::disk('public')->delete('category/slider/'.$category->image);
+            }
+            //resize image for slider and upload
+            $sliderImg= Image::make($image)->resize(500,300)->save();
+            Storage::disk('public')->put('category/slider/'.$imageName,$sliderImg);
+
+        }else{
+            $imageName=$category->name;
+        }
+
         $category->name= $request->name;
-        $category->slug= Str::slug($request->name);
+        $category->slug= $slug;
+        $category->image=$imageName;
         $category->save();
 
         Toastr::success('Category updated successfully','Success');
@@ -136,7 +175,8 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
 
-        $category=Category::find($category->id);
+        Storage::disk('public')->delete('/category/'.$category->image);
+        Storage::disk('public')->delete('/category/slider/'.$category->image);
         $category->delete();
         Toastr::success('Category deleted successfully','Success');
         return redirect()->route('admin.category.index');

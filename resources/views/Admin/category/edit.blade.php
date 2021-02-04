@@ -19,13 +19,18 @@
                             </h2>
                         </div>
                         <div class="body">
-                            <form action="{{route('admin.category.update',$category->id)}}" method="POST">
+                            <form action="{{route('admin.category.update',$category->id)}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method("PUT")
                                 <label for="name">Name</label>
                                 <div class="form-group">
                                     <div class="form-line">
                                         <input type="text" id="name" name="name" class="form-control" value="{{$category->name}}" placeholder="Enter your category name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="file" name="image">
                                     </div>
                                 </div>
                                 <a href="{{route('admin.category.create')}}" type="submit" class="btn btn-danger m-t-15 waves-effect">BACK</a>
