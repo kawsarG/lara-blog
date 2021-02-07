@@ -43,7 +43,13 @@
                 <li class="{{Request::is('admin/category*')? 'active':''}}">
                     <a href="{{route('admin.category.index')}}">
                         <i class="material-icons">category</i>
-                        <span>Category</span>
+                        <span>Categories</span>
+                    </a>
+                </li>
+                <li class="{{Request::is('admin/post*')? 'active':''}}">
+                    <a href="{{route('admin.post.index')}}">
+                        <i class="material-icons">note</i>
+                        <span>Posts</span>
                     </a>
                 </li>
                <li class="header">SYSTEM</li>
