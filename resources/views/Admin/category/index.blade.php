@@ -17,7 +17,7 @@
                    <div class="card">
                        <div class="header">
                            <h2>
-                               All Category
+                               All Category <span class="badge bg-blue">{{$categories->count()}}</span>
                            </h2>
                        </div>
                        <div class="body">
@@ -27,6 +27,7 @@
                                    <tr>
                                        <th>Id</th>
                                        <th>Name</th>
+                                       <th>Posts Count</th>
                                        <th>Created At</th>
                                        <th>Updated At</th>
                                        <th>Actions</th>
@@ -36,6 +37,7 @@
                                    <tr>
                                        <th>Id</th>
                                        <th>Name</th>
+                                       <th>Posts Count</th>
                                        <th>Created At</th>
                                        <th>Updated At</th>
                                        <th>Actions</th>
@@ -46,6 +48,7 @@
                                      <tr>
                                          <td>{{$key+1}}</td>
                                          <td>{{$category->name}}</td>
+                                         <td>{{$category->posts->count()}}</td>
                                          <td>{{$category->created_at}}</td>
                                          <td>{{$category->updated_at}}</td>
                                          <td>

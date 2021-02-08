@@ -17,7 +17,7 @@
                    <div class="card">
                        <div class="header">
                            <h2>
-                               All Posts
+                               All Posts <span class="badge bg-blue p-2">{{$posts->count()}}</span>
                            </h2>
                        </div>
                        <div class="body">
@@ -53,7 +53,7 @@
                                  @foreach($posts as $key=>$post)
                                      <tr>
                                          <td>{{$key+1}}</td>
-                                         <td>{{$post->title}}</td>
+                                         <td>{{Str::limit($post->title,10)}}</td>
                                          <td>{{$post->user->username}}</td>
                                          <td>{{$post->view_count}}</td>
                                          <td>
@@ -73,7 +73,7 @@
                                          <td>{{$post->created_at}}</td>
                                          <td>{{$post->updated_at}}</td>
                                          <td>
-                                             <a href="{{route('admin.tag.edit',$post->id)}}" class="btn btn-warning"><i class="material-icons">edit</i>Edit</a>
+                                             <a href="{{route('admin.post.edit',$post->id)}}" class="btn btn-warning"><i class="material-icons">edit</i>Edit</a>
                                              <a href="" class="btn btn-danger" onclick="event.preventDefault();
                                                  document.getElementById('del-{{$post->id}}').submit()"><i class="material-icons">delete</i>Delete</a>
                                              <form id="del-{{$post->id}}" action="{{route('admin.post.destroy',$post)}}" method="POST">

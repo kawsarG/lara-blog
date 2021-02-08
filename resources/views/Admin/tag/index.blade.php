@@ -17,7 +17,7 @@
                    <div class="card">
                        <div class="header">
                            <h2>
-                               All Tags
+                               All Tags <span class="badge bg-blue">{{$tags->count()}}</span>
                            </h2>
                        </div>
                        <div class="body">
@@ -27,6 +27,7 @@
                                    <tr>
                                        <th>Id</th>
                                        <th>Name</th>
+                                       <th>Post Count</th>
                                        <th>Created At</th>
                                        <th>Updated At</th>
                                        <th>Actions</th>
@@ -36,6 +37,7 @@
                                    <tr>
                                        <th>Id</th>
                                        <th>Name</th>
+                                       <th>Post Count</th>
                                        <th>Created At</th>
                                        <th>Updated At</th>
                                        <th>Actions</th>
@@ -46,6 +48,7 @@
                                      <tr>
                                          <td>{{$key+1}}</td>
                                          <td>{{$tag->name}}</td>
+                                         <td>{{$tag->posts->count()}}</td>
                                          <td>{{$tag->created_at}}</td>
                                          <td>{{$tag->updated_at}}</td>
                                          <td>
